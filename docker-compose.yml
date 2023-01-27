@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  db:
+      image: mongo:latest
+      container_name: mongodb
+      restart: always
+      environment:
+         MONGO_INITDB_ROOT_USERNAME: adm
+         MONGO_INITDB_ROOT_PASSWORD: 1234
+         MONGO_INITDB_DATABASE: mongodb
+      volumes:
+      - mongo_data:/data/mongo
+      ports:
+         - 27017:27017
+
+volumes:
+  mongo_data:
+    driver: local
