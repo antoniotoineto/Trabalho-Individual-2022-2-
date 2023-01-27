@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db:
-      image: mongo:latest
+      image: mongo
       container_name: mongodb
       restart: always
       environment:
@@ -13,6 +13,19 @@ services:
       - mongo_data:/data/mongo
       ports:
          - 27017:27017
+
+  app:
+      image: python
+      container_name: pythonContainer
+      build: .
+      command: ["python" ,"src/main.py"]
+      ports:
+        - 5000:5000
+      depends_on:
+        - db
+      volumes:
+        - .:/app
+
 
 volumes:
   mongo_data:
