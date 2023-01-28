@@ -19,6 +19,7 @@ services:
       container_name: pythonContainer
       build: .
       command: ["python" ,"src/main.py"]
+      command: tail -f /dev/null
       ports:
         - 5000:5000
       depends_on:
