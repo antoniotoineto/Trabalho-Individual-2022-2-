@@ -28,32 +28,35 @@ services:
         - .:/app
 
   postgres:
-        image: postgres:latest
-        container_name: postgresMetabase
-        restart: always
-        environment:
-            POSTGRES_DB: pg_metabase
-            POSTGRES_USER: lappis
-            POSTGRES_PASSWORD: lappis
+      image: postgres:latest
+      container_name: postgresqlContainer
+      restart: always
+      environment:
+          POSTGRES_DB: metabase
+          POSTGRES_USER: lappis
+          POSTGRES_PASSWORD: lappis
+     
 
   metabase:
-      container_name: metabaseContainer
       image: metabase/metabase:latest
+      container_name: metabaseContainer
       restart: always
-      depends_on:
-            - postgres
-      ports:
-        - 3000:3000
-      volumes:
-        - .:/metabase
       environment:
-            MB_DB_TYPE: postgres
-            MB_DB_DBNAME: pg_metabase
-            MB_DB_PORT: 5432
-            MB_DB_USER: lappis
-            MB_DB_PASS: lappis
-            MB_DB_HOST: postgressDb
-            MB_DB_FILE: /metabase-data/metabase.db
+          MB_DB_TYPE: postgres
+          MB_DB_DBNAME: metabase
+          MB_DB_PORT: 5432
+          MB_DB_USER: lappis
+          MB_DB_PASS: lappis
+          MB_DB_HOST: postgres
+          MB_DB_FILE: /metabase-data/metabase.db
+      depends_on:
+          - postgres
+      volumes:
+          - .:/metabase
+      ports:
+          - 3000:3000
+
+
         
 volumes:
   mongo_data:
