@@ -27,6 +27,12 @@ services:
       volumes:
         - .:/app
 
+  metabase:
+      container_name: metabaseContainer
+      image: metabase/metabase:latest
+      ports:
+        - 3000:3000
+
 
 volumes:
   mongo_data:
