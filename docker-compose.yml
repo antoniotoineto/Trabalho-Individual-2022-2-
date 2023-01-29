@@ -1,13 +1,13 @@
 version: '3.7'
 
 services:
-  db:
+  mongodb:
       image: mongo
       container_name: mongodb
       restart: always
       environment:
-         MONGO_INITDB_ROOT_USERNAME: adm
-         MONGO_INITDB_ROOT_PASSWORD: 1234
+         MONGO_INITDB_ROOT_USERNAME: lappis
+         MONGO_INITDB_ROOT_PASSWORD: lappis
          MONGO_INITDB_DATABASE: mongodb
       volumes:
       - mongo_data:/data/mongo
@@ -23,17 +23,38 @@ services:
       ports:
         - 5000:5000
       depends_on:
-        - db
+        - mongodb
       volumes:
         - .:/app
+
+  postgres:
+        image: postgres:latest
+        container_name: postgresMetabase
+        restart: always
+        environment:
+            POSTGRES_DB: pg_metabase
+            POSTGRES_USER: lappis
+            POSTGRES_PASSWORD: lappis
 
   metabase:
       container_name: metabaseContainer
       image: metabase/metabase:latest
+      restart: always
+      depends_on:
+            - postgres
       ports:
         - 3000:3000
-
-
+      volumes:
+        - .:/metabase
+      environment:
+            MB_DB_TYPE: postgres
+            MB_DB_DBNAME: pg_metabase
+            MB_DB_PORT: 5432
+            MB_DB_USER: lappis
+            MB_DB_PASS: lappis
+            MB_DB_HOST: postgressDb
+            MB_DB_FILE: /metabase-data/metabase.db
+        
 volumes:
   mongo_data:
     driver: local
