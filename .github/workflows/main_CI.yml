@@ -9,23 +9,46 @@ on:
       - main
       
 jobs:
-  #build:
-  #  runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Checking Python 3.8.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.8.10
+    
+    - name: Installing poetry
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install poetry
+        poetry install
+
+    - name: Installing dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install requirements.txt
+
+    - name: Running docker commands
+        run: docker-compose up --force-recreate
+
+
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
-    - name: Installing python
+    - name: Checking Python 3.8.10
       uses: actions/setup-python@v4
       with:
         python-version: '3.8.10'
 
-    - name: Installing python dependencies
+    - name: Installing python3 dependencies
       run: |
         pip install whatlies==0.7.0
         pip install pyyaml
-        python -m pip install --upgrade pip
+        python3 -m pip install --upgrade pip
         pip install flake8 pytest-cov
 
     - name: Testing with Pytest
