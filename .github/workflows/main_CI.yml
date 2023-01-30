@@ -106,5 +106,5 @@ jobs:
        username: ${{secrets.PYPI_LOGIN}}
        password: ${{secrets.PYPI_LOGIN_PASSWORD}}
       run:
-        poetry publish --build -u username -p $password
+        poetry publish --build -u $username -p $password
 
