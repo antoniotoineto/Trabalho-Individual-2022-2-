@@ -45,17 +45,17 @@ jobs:
         pip install sphinx
         pip install breathe
         pip install sphinx_rtd_theme
-               
-    #- name: Doxygen 
-    #  run: |
-    #   python3 -m pip install --upgrade pip
-    #   doxygen Doxyfile
 
     - name: Building Sphinx
       working-directory: ./sphinx-docs
       run: |
         make html
         make xml
+
+    #- name: Building Doxygen 
+    #  run: |
+    #   python3 -m pip install --upgrade pip
+    #   doxygen Doxyfile
 
   test:
     runs-on: ubuntu-latest
@@ -85,7 +85,6 @@ jobs:
        
 
   deploy:
-    needs: [build, test]
     runs-on: ubuntu-latest
 
     steps:
@@ -103,11 +102,9 @@ jobs:
         poetry install
 
     - name: Configuring and publishing poetry
-      #env:
-      # username: ${{secrets.PYPI_LOGIN}}
-      #  password: ${{secrets.PYPI_LOGIN_PASSWORD}}
+      env:
+       username: ${{secrets.PYPI_LOGIN}}
+       password: ${{secrets.PYPI_LOGIN_PASSWORD}}
       run:
-        poetry config http-basic.pypi ${{ secrets.PYPI_LOGIN }} ${{ secrets.PYPI_LOGIN_PASSWORD }}
-        poetry build
-        poetry publish
+        poetry publish --build -u username -p $password
 
