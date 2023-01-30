@@ -103,8 +103,8 @@ jobs:
 
     - name: Configuring and publishing poetry
       env:
-       username: ${{secrets.PYPI_LOGIN}}
-       password: ${{secrets.PYPI_LOGIN_PASSWORD}}
+       PYPI_LOGIN: ${{secrets.PYPI_LOGIN}}
+       PYPI_LOGIN_PASSWORD: ${{secrets.PYPI_LOGIN_PASSWORD}}
       run:
-        poetry publish --build -u $username -p $password
+        poetry publish --build -u $PYPI_LOGIN -p $PYPI_LOGIN_PASSWORD
 
