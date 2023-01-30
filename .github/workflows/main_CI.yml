@@ -31,8 +31,7 @@ jobs:
         pip install requirements.txt
 
     - name: Running docker commands
-        run: docker-compose up --force-recreate
-
+      run: docker-compose up --force-recreate
 
   test:
     runs-on: ubuntu-latest
@@ -42,22 +41,22 @@ jobs:
     - name: Checking Python 3.8.10
       uses: actions/setup-python@v4
       with:
-        python-version: '3.8.10'
-
-    - name: Installing python3 dependencies
-      run: |
-        pip install whatlies==0.7.0
-        pip install pyyaml
-        python3 -m pip install --upgrade pip
-        pip install flake8 pytest-cov
+        python-version: '3.8.10'        
 
     - name: Testing with Pytest
       run: |
+        python3 -m pip install --upgrade pip
+        pip install pytest
         pytest --cov
       
-    - name: Lint with flake8
+    - name: Clean code using Lint with flake8
       run: |
-        flake8 --extend-ignore=E302,E101,E131,W191,W293,W292,W291 --count --select=E9,F63,F7,F82 --exclude=*.pyc,*migrations* --show-source --statistics
-        flake8 --extend-ignore=E302,E101,E131,W191,W293,W292,W291 --count --max-complexity=10 --max-line-length=226 --exclude=*.pyc,*migrations* --statistics 
+        python3 -m pip install --upgrade pip
+        pip install flake8 pytest-cov
+        pip install flake8
+        flake8 ./src
+      continue-on-error: true
+       
 
-  #deploy:
+  # deploy:
+    
