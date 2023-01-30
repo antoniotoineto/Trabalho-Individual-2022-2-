@@ -107,5 +107,4 @@ jobs:
        PYPI_LOGIN_PASSWORD: ${{secrets.PYPI_LOGIN_PASSWORD}}
       run:
         poetry publish --build -u $PYPI_LOGIN -p $PYPI_LOGIN_PASSWORD
-        continue-on-error: true
 
