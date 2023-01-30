@@ -34,6 +34,29 @@ jobs:
     - name: Running docker commands
       run: docker-compose up -d
 
+  docs:
+  
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+        
+    - name: Installing docs dependencies 
+      run: |
+        pip install sphinx
+        pip install breathe
+        pip install sphinx_rtd_theme
+               
+    #- name: Doxygen 
+    #  run: |
+    #   python3 -m pip install --upgrade pip
+    #   doxygen Doxyfile
+
+    - name: Building Sphinx
+      working-directory: ./sphinx-docs
+      run: |
+        make html
+        make xml
+
   test:
     runs-on: ubuntu-latest
     steps:
